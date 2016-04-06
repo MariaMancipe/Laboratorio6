@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project server with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR file Export Wizard-->
+    <!--ANT 1.7 is required-->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="C:/Software/Workspace"/>
+    <property name="dir.jarfile" value="C:/Users/Q551/Documents/Universidad/Redes/Laboratorio6"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/servidor.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="src.UDPConnection"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ opencv-310.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="${dir.jarfile}/server/bin"/>
+        	<fileset dir="${dir.jarfile}/server/media/" includes="avecesaria.mp4" />
+        	<fileset dir="${dir.jarfile}/server/otros/" includes="opencv_ffmpeg310_64.dll" />
+        	<fileset dir="${dir.jarfile}/server/otros/" includes="opencv_java310.dll" />
+            <zipfileset dir="${dir.jarfile}/server/lib" includes="opencv-310.jar"/>
+        </jar>
+    </target>
+</project>
