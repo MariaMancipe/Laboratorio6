@@ -15,9 +15,9 @@ public class MyFrame {
 	private final JFrame frame;
 	private final MyPanel panel;
 
-	public MyFrame() {
+	public MyFrame(JFrame nFrame) {
                 // JFrame which holds JPanel
-		frame = new JFrame();
+		frame = nFrame;
 		frame.getContentPane().setLayout(new FlowLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

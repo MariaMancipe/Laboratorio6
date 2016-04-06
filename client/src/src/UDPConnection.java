@@ -1,43 +1,36 @@
 package src;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.utils.Converters;
-import org.opencv.videoio.VideoCapture;
 
-public class UDPConnection extends JPanel {
+public class UDPConnection extends Thread {
 
-	private ArrayList<Mat> frames;
+	//private ArrayList<Mat> frames;
+
+	private MyFrame f;
 	
-	public UDPConnection(){
+	public UDPConnection(JFrame jframe){
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		frames = new ArrayList<Mat>();	
+		f = new MyFrame(jframe);
+		f.setVisible(true);
+		//frames = new ArrayList<Mat>();	
 	}
 	public synchronized void consume(){
-		MyFrame f = new MyFrame();
-		f.setVisible(true);
+		
 		MulticastSocket clientSocket;
 		try {
 			clientSocket = new MulticastSocket(8181);
 			
-			byte[] senderBuf = new byte[1024];
-			int port = 8080;
 			InetAddress ip = InetAddress.getByName("224.0.0.3");
 			clientSocket.joinGroup(ip);
 			//Sending Command
@@ -49,7 +42,6 @@ public class UDPConnection extends JPanel {
 			//Receiving the frames length
 			boolean ya = true;
 			int size = -1;
-			int fr = -1;
 			while(ya){
 				byte[] receiverBuf = new byte[32000];
 				DatagramPacket receiverPacket = new DatagramPacket(receiverBuf, receiverBuf.length);
@@ -125,10 +117,14 @@ public class UDPConnection extends JPanel {
 			e.printStackTrace();
 		}
 		
-	} 
+	}
+	
+	public void run(){
+		consume();
+	}
 	
 	public static void main(String[] args){
-		UDPConnection udp = new UDPConnection();
+		UDPConnection udp = new UDPConnection(new JFrame());
 		udp.consume();
 	}
 }

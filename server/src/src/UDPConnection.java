@@ -31,7 +31,7 @@ public class UDPConnection {
 			int port = 8181;
 			InetAddress ip = InetAddress.getByName("224.0.0.3");
 			
-			File file = new File("..\\server\\media\\avecesaria.mp4");
+			File file = new File("..\\server\\avecesaria.mp4");
 			String path = file.getAbsolutePath();
 			int fileSize = (int)file.getTotalSpace();
 			System.out.println(path+file.exists());
@@ -102,6 +102,12 @@ public class UDPConnection {
 								}
 								DatagramPacket senderPacket = new DatagramPacket(buf, buf.length, ip, port);
 								serverSocket.send(senderPacket);
+								try {
+									wait(3);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
 						}
 						capture.release();
